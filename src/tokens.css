@@ -1,0 +1,50 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --text-color-brand: #2828df;
+  --text-color-default: #2d2d2d;
+  --text-color-error: #df5b5b;
+  --text-color-subtle: #5c5c5c;
+  --text-color-success: #5bd79e;
+  --text-font-family-inter: Inter;
+  --text-font-size-2xl: 32px;
+  --text-font-size-3xl: 36px;
+  --text-font-size-lg: 24px;
+  --text-font-size-md: 20px;
+  --text-font-size-sm: 16px;
+  --text-font-size-xl: 28px;
+  --text-font-size-xs: 12px;
+  --text-font-weight-bold: 700;
+  --text-font-weight-light: 300;
+  --text-font-weight-medium: 500;
+  --text-font-weight-regular: 400;
+  --text-font-weight-semi-bold: 600;
+  --text-line-height-2xl: 40px;
+  --text-line-height-3xl: 44px;
+  --text-line-height-lg: 20px;
+  --text-line-height-md: 20px;
+  --text-line-height-sm: 16px;
+  --text-line-height-xl: 24px;
+  --text-line-height-xs: 16px;
+}
+
+@media only screen and (min-width: 1025px) {
+  :root {
+    --text-font-size-2xl: 44px;
+    --text-font-size-3xl: 48px;
+    --text-font-size-lg: 32px;
+    --text-font-size-md: 24px;
+    --text-font-size-sm: 20px;
+    --text-font-size-xl: 40px;
+    --text-font-size-xs: 16px;
+    --text-line-height-2xl: 40px;
+    --text-line-height-3xl: 48px;
+    --text-line-height-lg: 24px;
+    --text-line-height-md: 20px;
+    --text-line-height-sm: 16px;
+    --text-line-height-xl: 32px;
+    --text-line-height-xs: 16px;
+  }
+}
