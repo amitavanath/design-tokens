@@ -1,0 +1,8 @@
+{
+  "extends": "@mono/configs",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src", "package.json"],
+  "exclude": ["dist", "src/tests"]
+}

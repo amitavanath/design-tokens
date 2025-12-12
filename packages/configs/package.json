@@ -1,0 +1,9 @@
+{
+  "name": "@mono/configs",
+  "version": "1.0.0",
+  "main": "tsconfig.json",
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
+  "packageManager": "yarn@4.12.0"
+}

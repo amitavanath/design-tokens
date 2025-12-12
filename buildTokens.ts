@@ -169,6 +169,18 @@ function extractTextTokenMap(tokens: TransformedToken[]): TextTokenMap {
   }, new Map());
 }
 
+// builds a map of scale token keys to their values
+function extractScaleTokenMap(tokens: TransformedToken[]): Map<string, TransformedToken> {
+  return tokens.reduce<Map<string, TransformedToken>>((map, token) => {
+    if (!Array.isArray(token.path) || token.path[0] !== "options" || token.path[1] !== "Color" || token.path[2] !== "Scale") {
+      return map;
+    }
+    const key = token.path[3];
+    map.set(key, token);
+    return map;
+  }, new Map());
+}
+
 // generates css variable output with mobile defaults and desktop overrides
 function buildCssOutput(
   mobileTokens: TransformedToken[],
@@ -176,7 +188,11 @@ function buildCssOutput(
 ): string {
   const mobileMap = extractTextTokenMap(mobileTokens);
   const desktopMap = extractTextTokenMap(desktopTokens);
+  const scaleMap = extractScaleTokenMap(mobileTokens);
   const sortedKeys = Array.from(mobileMap.keys()).sort();
+  const sortedScaleKeys = Array.from(scaleMap.keys()).sort((a, b) => {
+    return parseInt(a) - parseInt(b);
+  });
 
   const rootLines = sortedKeys.map((key) => {
     const token = mobileMap.get(key);
@@ -184,6 +200,15 @@ function buildCssOutput(
       return null;
     }
     return `  ${getCssVarName(token)}: ${token.value};`;
+  });
+
+  // Add scale tokens to root
+  const scaleLines = sortedScaleKeys.map((key) => {
+    const token = scaleMap.get(key);
+    if (!token) {
+      return null;
+    }
+    return `  --scale-${key}: ${token.value};`;
   });
 
   const desktopOverrideKeys = sortedKeys.filter(
@@ -207,6 +232,7 @@ function buildCssOutput(
     "",
     ":root {",
     ...rootLines.filter((line): line is string => Boolean(line)),
+    ...scaleLines.filter((line): line is string => Boolean(line)),
     "}",
   ];
 

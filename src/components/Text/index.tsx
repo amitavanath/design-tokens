@@ -4,6 +4,7 @@ import { clsx } from 'clsx'
 
 import * as styles from './Text.css'
 import type { TextVariants } from './Text.css'
+import { sx, type Sprinkles } from '../../sx'
 
 export type TextProps = HTMLAttributes<HTMLSpanElement> &
   TextVariants & {
@@ -22,10 +23,15 @@ export type TextProps = HTMLAttributes<HTMLSpanElement> &
      * Bottom margin for the text.
      */
     gutterBottom?: boolean
+
+    /**
+     * Sprinkles atomic utilities for additional spacing, layout, and styling.
+     */
+    sprinkles?: Sprinkles
   }
 
 export const Text = forwardRef<HTMLSpanElement, TextProps>(function Text(
-  { asChild, as, className, size, weight, color, decoration, overflow, gutterBottom, ...props },
+  { asChild, as, className, size, weight, color, decoration, overflow, gutterBottom, sprinkles: sprinklesProps, ...props },
   forwardedRef
 ) {
   const Component = asChild ? Slot : (as || 'span')
@@ -39,6 +45,7 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(function Text(
       overflow,
       gutterBottom,
     }),
+    sprinklesProps ? sx(sprinklesProps) : undefined,
     className
   )
 

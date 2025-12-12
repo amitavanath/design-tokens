@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { Text } from "./index"
+import { sx } from "../../sx"
 
 const meta: Meta<typeof Text> = {
   title: "Components/Text",
@@ -55,7 +56,7 @@ export const Default: Story = {
 
 export const AllHeadings: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '300' })}>
       <Text as="h1" size="3xl" weight="bold">
         Heading 1 - 3XL Bold
       </Text>
@@ -71,7 +72,7 @@ export const AllHeadings: Story = {
 
 export const SizeRamp: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '200' })}>
       <Text size="xs" weight="regular">
         Extra Small (xs)
       </Text>
@@ -99,7 +100,7 @@ export const SizeRamp: Story = {
 
 export const FontWeights: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '100' })}>
       <Text weight="light" size="md">
         Light Weight
       </Text>
@@ -121,7 +122,7 @@ export const FontWeights: Story = {
 
 export const ColorPalette: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '100' })}>
       <Text color="default">Default Color</Text>
       <Text color="subtle">Subtle Color</Text>
       <Text color="brand">Brand Color</Text>
@@ -133,7 +134,7 @@ export const ColorPalette: Story = {
 
 export const Decorations: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '200' })}>
       <Text decoration="link">Link Decoration (hover me)</Text>
       <Text decoration="tooltip">Tooltip Decoration</Text>
     </div>
@@ -142,7 +143,7 @@ export const Decorations: Story = {
 
 export const Overflow: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '200' })}>
       <div style={{ width: "12rem" }}>
         <Text overflow="ellipsis">
           This text is very long and will be truncated with an ellipsis when it exceeds the container width
@@ -178,7 +179,7 @@ export const AsChild: Story = {
 
 export const ResponsiveExample: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '300' })}>
       <div>
         <Text size="lg" weight="bold" color="brand" gutterBottom>
           Success State
@@ -190,6 +191,74 @@ export const ResponsiveExample: Story = {
           Error State
         </Text>
         <Text color="error">An error occurred while processing your request</Text>
+      </div>
+    </div>
+  ),
+}
+
+export const WithSprinkles: Story = {
+  render: () => (
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '400' })}>
+      <div className={sx({ padding: '300', backgroundColor: 'transparent' })}>
+        <Text 
+          size="lg" 
+          weight="bold" 
+          color="brand" 
+          sprinkles={{ marginBottom: '200' }}
+        >
+          Using Sprinkles with Text
+        </Text>
+        <Text color="default">
+          Text component accepts sprinkles prop for spacing and layout utilities
+        </Text>
+      </div>
+
+      <div className={sx({ display: 'flex', flexDirection: 'column', gap: '200' })}>
+        <Text weight="medium" color="subtle">Sprinkles Examples:</Text>
+        <Text sprinkles={{ marginBottom: '100' }}>Margin bottom with scale-100 (4px)</Text>
+        <Text sprinkles={{ marginBottom: '200' }}>Margin bottom with scale-200 (8px)</Text>
+        <Text sprinkles={{ marginBottom: '300' }}>Margin bottom with scale-300 (12px)</Text>
+      </div>
+    </div>
+  ),
+}
+
+export const DesignTokenDemo: Story = {
+  render: () => (
+    <div className={sx({ display: 'flex', flexDirection: 'column', gap: '400', padding: '300' })}>
+      <div>
+        <Text 
+          as="h2" 
+          size="2xl" 
+          weight="bold" 
+          color="brand"
+          sprinkles={{ marginBottom: '200' }}
+        >
+          Design Tokens in Action
+        </Text>
+        <Text color="subtle" sprinkles={{ marginBottom: '300' }}>
+          All spacing values are connected to your design system scale
+        </Text>
+      </div>
+
+      <div className={sx({ display: 'flex', flexDirection: 'column', gap: '300' })}>
+        {(['100', '200', '300', '400', '500', '600'] as const).map((scale) => (
+          <div key={scale} className={sx({ display: 'flex', gap: '200', alignItems: 'center' })}>
+            <Text weight="medium" style={{ minWidth: '4rem' }} color="subtle">
+              {scale}
+            </Text>
+            <div 
+              className={sx({ 
+                flex: '1',
+                backgroundColor: 'transparent',
+                padding: scale,
+              })} 
+              style={{ border: '1px solid #e0e0e0' }}
+            >
+              <Text size="sm">Padding: {scale}</Text>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   ),
