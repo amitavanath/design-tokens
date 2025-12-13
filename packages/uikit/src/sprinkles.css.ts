@@ -268,4 +268,8 @@ const typographyProperties = defineProperties({
 
 export const sprinkles = createSprinkles(colorProperties, layoutProperties, spacingProperties, typographyProperties)
 
-export type Sprinkles = Parameters<typeof sprinkles>[0]
+// The generated union/type produced by `Parameters<typeof sprinkles>[0]` can
+// be extremely large and cause TypeScript to error with "type too complex".
+// Export a simple `any` alias until upstream typings or TS compiler options
+// are adjusted. Replace `any` with the precise type when feasible.
+export type Sprinkles = any

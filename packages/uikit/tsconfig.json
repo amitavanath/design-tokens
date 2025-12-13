@@ -1,7 +1,9 @@
 {
   "extends": "@mono/configs",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["vite/client", "react"],
+    "lib": ["ES2015", "DOM"]
   },
   "include": ["src", "package.json"],
   "exclude": ["dist", "src/tests"]
