@@ -1,50 +1,47 @@
-import type { StorybookConfig } from '@storybook/react-vite'
-
-const config: StorybookConfig = {
-  stories: [
-    '../../../packages/uikit/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
-  ],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-a11y'
-  ],
-  framework: {
-    name: '@storybook/react-vite',
-    options: {},
-  },
-  docs: {
-    autodocs: 'tag',
-  },
-}
-
-export default config
 import type { StorybookConfig } from '@storybook/react-vite';
-
-import { dirname } from "path"
-
-import { fileURLToPath } from "url"
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 /**
 * This function is used to resolve the absolute path of a package.
 * It is needed in projects that use Yarn PnP or are set up within a monorepo.
 */
 function getAbsolutePath(value: string): any {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }
+
 const config: StorybookConfig = {
-  "stories": [
+  stories: [
+    '../../../packages/uikit/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
-  "addons": [
+  addons: [
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-vitest'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-docs'),
-    getAbsolutePath('@storybook/addon-onboarding')
+    getAbsolutePath('@storybook/addon-onboarding'),
+    getAbsolutePath('@storybook/addon-links')
   ],
-  "framework": getAbsolutePath('@storybook/react-vite')
+  framework: getAbsolutePath('@storybook/react-vite'),
+  docs: {
+    autodocs: 'tag',
+  },
+  async viteFinal(config) {
+    config.plugins = config.plugins || [];
+    config.plugins.push(vanillaExtractPlugin());
+    
+    // Enable automatic JSX runtime
+    config.esbuild = {
+      ...config.esbuild,
+      jsx: 'automatic',
+    };
+    
+    return config;
+  },
 };
+
 export default config;
