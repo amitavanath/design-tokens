@@ -1,7 +1,12 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { useRef, useEffect } from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { useEffect, useRef, type ReactNode } from 'react'
 
-interface FiTextProps {
+import { defineFiText } from '../../../../packages/uikit/fi-text'
+
+defineFiText()
+
+interface FiTextStoryProps {
+  children?: ReactNode
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
   weight?: 'light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
   color?: 'default' | 'subtle' | 'brand' | 'success' | 'error'
@@ -9,10 +14,10 @@ interface FiTextProps {
   overflow?: 'ellipsis' | 'clip'
   gutterBottom?: boolean
   as?: 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  text?: string
 }
 
-const FiTextComponent = ({
+const FiText = ({
+  children,
   size = 'md',
   weight = 'regular',
   color = 'default',
@@ -20,16 +25,14 @@ const FiTextComponent = ({
   overflow,
   gutterBottom = false,
   as = 'span',
-  text = 'Hello from fi-text (web component)',
-}: FiTextProps) => {
+}: FiTextStoryProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (!ref.current) return
-    
-    // Clear previous content
+
     ref.current.innerHTML = ''
-    
+
     const el = document.createElement('fi-text')
     el.setAttribute('size', size)
     el.setAttribute('weight', weight)
@@ -38,143 +41,117 @@ const FiTextComponent = ({
     if (overflow) el.setAttribute('overflow', overflow)
     if (gutterBottom) el.setAttribute('gutter-bottom', '')
     el.setAttribute('as', as)
-    el.textContent = text
+
+    if (typeof children === 'string') {
+      el.textContent = children
+    }
+
     ref.current.appendChild(el)
-  }, [size, weight, color, decoration, overflow, gutterBottom, as, text])
+  }, [as, children, color, decoration, gutterBottom, overflow, size, weight])
 
   return <div ref={ref} />
 }
 
-const meta: Meta<FiTextProps> = {
+const meta = {
   title: 'WebComponents/fi-text',
-  component: FiTextComponent,
+  component: FiText,
+  decorators: [
+    (Story) => (
+      <div style={{ width: '480px', maxWidth: '90vw' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    size: 'md',
+    weight: 'regular',
+    color: 'default',
+  },
   argTypes: {
     size: {
       control: 'select',
       options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      description: 'Font size of the text',
     },
     weight: {
       control: 'select',
       options: ['light', 'regular', 'medium', 'semi-bold', 'bold'],
-      description: 'Font weight of the text',
     },
     color: {
       control: 'select',
       options: ['default', 'subtle', 'brand', 'success', 'error'],
-      description: 'Color of the text',
     },
     decoration: {
       control: 'select',
-      options: [undefined, 'link', 'tooltip'],
-      description: 'Text decoration style',
+      options: ['link', 'tooltip'],
     },
     overflow: {
       control: 'select',
-      options: [undefined, 'ellipsis', 'clip'],
-      description: 'Text overflow behavior',
+      options: ['ellipsis', 'clip'],
     },
     gutterBottom: {
       control: 'boolean',
-      description: 'Add bottom margin',
     },
     as: {
       control: 'select',
       options: ['span', 'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      description: 'HTML tag to render',
-    },
-    text: {
-      control: 'text',
-      description: 'Text content',
     },
   },
-}
+} satisfies Meta<typeof FiText>
 
 export default meta
 
-type Story = StoryObj<FiTextProps>
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Basic: Story = {
   args: {
-    size: 'md',
-    weight: 'regular',
-    color: 'default',
-    text: 'Hello from fi-text (web component)',
+    children:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo odio unde optio delectus iste quidem architecto, rerum nesciunt porro amet tempore enim, tenetur quis ipsam consectetur accusamus maxime!',
   },
+  render: (args) => <FiText {...args} />,
 }
 
-export const Large: Story = {
+export const Overflow: Story = {
   args: {
-    size: 'lg',
-    weight: 'regular',
-    color: 'default',
-    text: 'Large text example',
-  },
-}
-
-export const BoldBrand: Story = {
-  args: {
-    size: 'md',
-    weight: 'bold',
-    color: 'brand',
-    text: 'Bold brand colored text',
-  },
-}
-
-export const LinkStyle: Story = {
-  args: {
-    size: 'md',
-    weight: 'regular',
-    color: 'brand',
-    decoration: 'link',
-    text: 'Clickable link text',
-  },
-}
-
-export const WithEllipsis: Story = {
-  args: {
-    size: 'md',
-    weight: 'regular',
-    color: 'default',
+    children:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo odio unde optio delectus iste quidem architecto, rerum nesciunt porro amet tempore enim, tenetur quis ipsam consectetur accusamus maxime!',
     overflow: 'ellipsis',
-    text: 'This is a very long text that will be truncated with an ellipsis when it overflows',
   },
+  argTypes: {
+    overflow: {
+      control: 'select',
+      options: ['ellipsis', 'clip'],
+    },
+  },
+  render: (args) => (
+    <div style={{ maxWidth: '200px' }}>
+      <FiText {...args} />
+    </div>
+  ),
 }
 
-export const Heading: Story = {
+export const Gutter: Story = {
   args: {
-    size: '3xl',
-    weight: 'bold',
-    color: 'default',
-    as: 'h1',
-    text: 'Heading Example',
-  },
-}
-
-export const WithGutter: Story = {
-  args: {
-    size: 'md',
-    weight: 'regular',
-    color: 'default',
+    children: 'Text with gutter',
     gutterBottom: true,
-    text: 'Text with bottom margin',
+  },
+  render: (args) => <FiText {...args} />,
+}
+
+export const LinkDecoration: Story = {
+  ...Basic,
+  args: {
+    children: 'Link',
+    decoration: 'link',
+    color: 'brand',
   },
 }
 
-export const ErrorMessage: Story = {
+export const TooltipDecoration: Story = {
+  ...Basic,
   args: {
-    size: 'sm',
-    weight: 'medium',
-    color: 'error',
-    text: 'Error: Something went wrong',
+    children: 'Tooltip',
+    decoration: 'tooltip',
+    color: 'brand',
   },
 }
 
-export const SuccessMessage: Story = {
-  args: {
-    size: 'sm',
-    weight: 'medium',
-    color: 'success',
-    text: 'Success: Operation completed',
-  },
-}
