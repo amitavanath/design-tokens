@@ -31,6 +31,9 @@
     }
   },
   "packageManager": "yarn@4.12.0",
+  "dependencies": {
+    "lit": "^3.2.0"
+  },
   "devDependencies": {
     "@mono/configs": "workspace:^",
     "@types/jest": "^29.5.14",

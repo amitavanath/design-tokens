@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useEffect, useRef, type ReactNode } from 'react'
 
-import { defineFiText } from '../../../../packages/uikit/src/components/Text/fi-text'
+import { defineFiTextLit } from '../../../../packages/uikit/src/components/TextLit/fi-text-lit'
 
-defineFiText()
+defineFiTextLit()
 
-interface FiTextStoryProps {
+interface FiTextLitStoryProps {
   children?: ReactNode
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
   weight?: 'light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
@@ -16,7 +16,7 @@ interface FiTextStoryProps {
   as?: 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
-const FiText = ({
+const FiTextLit = ({
   children,
   size = 'md',
   weight = 'regular',
@@ -25,7 +25,7 @@ const FiText = ({
   overflow,
   gutterBottom = false,
   as = 'span',
-}: FiTextStoryProps) => {
+}: FiTextLitStoryProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const FiText = ({
 
     ref.current.innerHTML = ''
 
-    const el = document.createElement('fi-text')
+    const el = document.createElement('fi-text-lit')
     el.setAttribute('size', size)
     el.setAttribute('weight', weight)
     el.setAttribute('color', color)
@@ -53,8 +53,8 @@ const FiText = ({
 }
 
 const meta = {
-  title: 'WebComponents/fi-text',
-  component: FiText,
+  title: 'WebComponents/fi-text-lit',
+  component: FiTextLit,
   decorators: [
     (Story) => (
       <div style={{ width: '480px', maxWidth: '90vw' }}>
@@ -96,7 +96,7 @@ const meta = {
       options: ['span', 'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     },
   },
-} satisfies Meta<typeof FiText>
+} satisfies Meta<typeof FiTextLit>
 
 export default meta
 
@@ -107,7 +107,7 @@ export const Basic: Story = {
     children:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dolor illo odio unde optio delectus iste quidem architecto, rerum nesciunt porro amet tempore enim, tenetur quis ipsam consectetur accusamus maxime!',
   },
-  render: (args) => <FiText {...args} />,
+  render: (args) => <FiTextLit {...args} />,
 }
 
 export const Overflow: Story = {
@@ -124,7 +124,7 @@ export const Overflow: Story = {
   },
   render: (args) => (
     <div style={{ maxWidth: '200px' }}>
-      <FiText {...args} />
+      <FiTextLit {...args} />
     </div>
   ),
 }
@@ -134,7 +134,7 @@ export const Gutter: Story = {
     children: 'Text with gutter',
     gutterBottom: true,
   },
-  render: (args) => <FiText {...args} />,
+  render: (args) => <FiTextLit {...args} />,
 }
 
 export const LinkDecoration: Story = {
